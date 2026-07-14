@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+Kuiz Pendidikan Muzik Tingkatan 3, 4 & 5
+</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="app-container">
+
+
+<!-- ==========================
+     HALAMAN MULA
+========================== -->
+
+<section id="startPage" class="page">
+
+
+<h1>
+🎵 Kuiz Pendidikan Muzik
+</h1>
+
+
+<h2>
+Tingkatan 3 • Tingkatan 4 • Tingkatan 5
+</h2>
+
+
+<p>
+Jawab 20 soalan rawak daripada 80 soalan.
+</p>
+
+
+<div class="input-group">
+
+<label>
+Nama Peserta
+</label>
+
+<input 
+type="text"
+id="playerName"
+placeholder="Masukkan nama anda"
+maxlength="30"
+>
+
+
+</div>
+
+
+<button id="startButton">
+
+Mula Kuiz
+
+</button>
+
+
+</section>
+
+
+
+
+
+<!-- ==========================
+     HALAMAN KUIZ
+========================== -->
+
+<section id="quizPage" class="page hidden">
+
+
+<div class="status-bar">
+
+
+<div class="box">
+
+⏰ Masa:
+
+<span id="timer">
+20:00
+</span>
+
+</div>
+
+
+<div class="box">
+
+✅ Betul:
+
+<span id="correctScore">
+0
+</span>
+
+</div>
+
+
+<div class="box">
+
+❌ Salah:
+
+<span id="wrongScore">
+0
+</span>
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="progress-container">
+
+
+<div id="progressBar">
+
+</div>
+
+
+</div>
+
+
+
+<div class="question-number">
+
+Soalan 
+
+<span id="questionNumber">
+1
+</span>
+
+/ 20
+
+</div>
+
+
+
+<div class="question-card">
+
+
+<h2 id="questionText">
+
+Soalan akan muncul di sini
+
+</h2>
+
+
+
+<div id="symbolImage">
+
+</div>
+
+
+
+<div id="answerContainer">
+
+</div>
+
+
+</div>
+
+
+
+<button id="nextButton">
+
+Soalan Seterusnya
+
+</button>
+
+
+
+</section>
+
+<!-- ==========================
+     HALAMAN KEPUTUSAN
+========================== -->
+
+<section id="resultPage" class="page hidden">
+
+
+<h1>
+🎉 Keputusan Kuiz
+</h1>
+
+
+<h2 id="resultName">
+
+</h2>
+
+
+
+<div class="result-box">
+
+
+<p>
+Jumlah Betul:
+<strong id="finalCorrect">
+0
+</strong>
+</p>
+
+
+<p>
+Jumlah Salah:
+<strong id="finalWrong">
+0
+</strong>
+</p>
+
+
+<p>
+Masa Digunakan:
+<strong id="finalTime">
+00:00
+</strong>
+</p>
+
+
+<p>
+Markah:
+<strong id="finalMark">
+0%
+</strong>
+</p>
+
+
+<h2 id="finalGrade">
+
+</h2>
+
+
+</div>
+
+
+
+<button id="playAgainButton">
+
+🔄 Main Semula
+
+</button>
+
+
+</section>
+
+
+
+
+<!-- ==========================
+     LEADERBOARD
+========================== -->
+
+
+<section id="leaderboardSection" class="page">
+
+
+<h1>
+🏆 Leaderboard
+</h1>
+
+
+<p>
+Pemain terbaik berdasarkan jumlah jawapan betul dan masa terpantas.
+</p>
+
+
+
+<div class="table-container">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+Kedudukan
+</th>
+
+
+<th>
+Nama
+</th>
+
+
+<th>
+Betul
+</th>
+
+
+<th>
+Salah
+</th>
+
+
+<th>
+Masa
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="leaderboardBody">
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+</div>
+
+
+
+<footer>
+
+
+<p>
+
+🎵 Sistem Kuiz Pendidikan Muzik Tingkatan 3, 4 & 5
+
+</p>
+
+
+</footer>
+
+
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+
+</html>
