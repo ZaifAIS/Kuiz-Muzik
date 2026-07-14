@@ -775,3 +775,63 @@ th,td{
 
 
 }
+.symbol-box{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:30px;
+
+    margin:25px auto;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+.symbol-text{
+
+    font-size:90px;
+
+    font-weight:bold;
+
+    color:#3949ab;
+
+}
+
+
+
+.music-symbol{
+
+    width:150px;
+
+    height:150px;
+
+    object-fit:contain;
+
+}
+
+
+
+@media(max-width:480px){
+
+    .symbol-text{
+
+        font-size:70px;
+
+    }
+
+
+    .music-symbol{
+
+        width:100px;
+
+        height:100px;
+
+    }
+
+}
