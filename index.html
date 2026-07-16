@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-Kuiz Pendidikan Muzik Tingkatan 3, 4 & 5
+Kuiz Pendidikan Muzik Tingkatan 3 4 5
 </title>
 
 <link rel="stylesheet" href="style.css">
@@ -19,14 +19,15 @@ Kuiz Pendidikan Muzik Tingkatan 3, 4 & 5
 <body>
 
 
-<div class="app-container">
+<div class="container">
 
 
 <!-- ==========================
-     HALAMAN MULA
+     HALAMAN UTAMA
 ========================== -->
 
-<section id="startPage" class="page">
+
+<section id="homePage">
 
 
 <h1>
@@ -40,32 +41,37 @@ Tingkatan 3 • Tingkatan 4 • Tingkatan 5
 
 
 <p>
-Jawab 20 soalan rawak daripada 80 soalan.
+Jawab 20 soalan rawak daripada 80 soalan muzik.
 </p>
 
 
-<div class="input-group">
+
+<div class="inputBox">
+
 
 <label>
 Nama Peserta
 </label>
 
+
 <input 
 type="text"
 id="playerName"
 placeholder="Masukkan nama anda"
-maxlength="30"
 >
+
 
 
 </div>
 
 
-<button id="startButton">
 
-Mula Kuiz
+<button id="startBtn">
+
+MULA KUIZ
 
 </button>
+
 
 
 </section>
@@ -78,51 +84,67 @@ Mula Kuiz
      HALAMAN KUIZ
 ========================== -->
 
-<section id="quizPage" class="page hidden">
+
+<section id="quizPage" class="hidden">
 
 
-<div class="status-bar">
+
+<div class="topInfo">
 
 
-<div class="box">
 
-⏰ Masa:
+<div class="infoCard">
+
+⏱️ Masa
+
+<br>
 
 <span id="timer">
-20:00
+1200 saat
 </span>
 
 </div>
 
 
-<div class="box">
 
-✅ Betul:
+<div class="infoCard">
 
-<span id="correctScore">
+✅ Betul
+
+<br>
+
+<span id="correct">
 0
 </span>
 
 </div>
 
 
-<div class="box">
 
-❌ Salah:
+<div class="infoCard">
 
-<span id="wrongScore">
+❌ Salah
+
+<br>
+
+<span id="wrong">
 0
 </span>
 
 </div>
 
 
+
 </div>
 
 
 
 
-<div class="progress-container">
+
+<!-- PROGRESS -->
+
+
+<div class="progressBox">
 
 
 <div id="progressBar">
@@ -134,49 +156,59 @@ Mula Kuiz
 
 
 
-<div class="question-number">
 
-Soalan 
 
-<span id="questionNumber">
-1
-</span>
+<h3 id="questionNumber">
 
-/ 20
+Soalan 1 / 20
 
-</div>
+</h3>
 
 
 
-<div class="question-card">
+
+
+<!-- SOALAN -->
+
+
+<div class="questionCard">
+
 
 
 <h2 id="questionText">
 
-Soalan akan muncul di sini
+Soalan akan dipaparkan di sini
 
 </h2>
 
 
 
-<div id="symbolImage">
+<div id="musicSymbol">
+
+🎵
 
 </div>
 
 
 
-<div id="answerContainer">
+
+<div id="answers">
+
+<!-- Jawapan A B C D akan masuk melalui JavaScript -->
+
 
 </div>
 
 
+
 </div>
 
 
 
-<button id="nextButton">
 
-Soalan Seterusnya
+<button id="nextBtn">
+
+SOALAN SETERUSNYA
 
 </button>
 
@@ -188,7 +220,8 @@ Soalan Seterusnya
      HALAMAN KEPUTUSAN
 ========================== -->
 
-<section id="resultPage" class="page hidden">
+
+<section id="resultPage" class="hidden">
 
 
 <h1>
@@ -196,64 +229,98 @@ Soalan Seterusnya
 </h1>
 
 
+
 <h2 id="resultName">
+
+Nama Peserta
 
 </h2>
 
 
 
-<div class="result-box">
+
+<div class="resultCard">
+
 
 
 <p>
-Jumlah Betul:
+
+✅ Jawapan Betul:
+
 <strong id="finalCorrect">
 0
 </strong>
+
 </p>
 
 
+
 <p>
-Jumlah Salah:
+
+❌ Jawapan Salah:
+
 <strong id="finalWrong">
 0
 </strong>
+
 </p>
 
 
-<p>
-Masa Digunakan:
-<strong id="finalTime">
-00:00
-</strong>
-</p>
 
 
 <p>
-Markah:
-<strong id="finalMark">
+
+📊 Markah:
+
+<strong id="finalScore">
 0%
 </strong>
+
 </p>
+
+
+
+
+<p>
+
+⏱️ Masa Digunakan:
+
+<strong id="finalTime">
+0 saat
+</strong>
+
+</p>
+
+
 
 
 <h2 id="finalGrade">
 
+GRED
+
 </h2>
+
 
 
 </div>
 
 
 
-<button id="playAgainButton">
 
-🔄 Main Semula
+
+<button id="restartBtn">
+
+🔄 MAIN SEMULA
 
 </button>
 
 
+
 </section>
+
+
+
+
 
 
 
@@ -263,27 +330,24 @@ Markah:
 ========================== -->
 
 
-<section id="leaderboardSection" class="page">
-
-
-<h1>
-🏆 Leaderboard
-</h1>
-
-
-<p>
-Pemain terbaik berdasarkan jumlah jawapan betul dan masa terpantas.
-</p>
+<section id="leaderboardPage">
 
 
 
-<div class="table-container">
+<h2>
+
+🏆 LEADERBOARD TOP 10
+
+</h2>
+
 
 
 <table>
 
 
+
 <thead>
+
 
 <tr>
 
@@ -308,6 +372,11 @@ Salah
 
 
 <th>
+Markah
+</th>
+
+
+<th>
 Masa
 </th>
 
@@ -322,14 +391,15 @@ Masa
 <tbody id="leaderboardBody">
 
 
+<!-- Data leaderboard masuk melalui JavaScript -->
+
+
 </tbody>
 
 
 
 </table>
 
-
-</div>
 
 
 </section>
@@ -339,16 +409,13 @@ Masa
 
 
 
-</div>
-
-
 
 <footer>
 
 
 <p>
 
-🎵 Sistem Kuiz Pendidikan Muzik Tingkatan 3, 4 & 5
+🎼 Kuiz Pendidikan Muzik Tingkatan 3, 4 & 5
 
 </p>
 
@@ -357,9 +424,14 @@ Masa
 
 
 
+</div>
+
+
+
 
 
 <script src="script.js"></script>
+
 
 
 </body>

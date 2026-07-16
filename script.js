@@ -1,80 +1,64 @@
-/* =====================================
-   SCRIPT.JS
+/* ==========================================
    KUIZ PENDIDIKAN MUZIK
-   TINGKATAN 3,4 & 5
-===================================== */
+   SCRIPT.JS BAHAGIAN 1
+========================================== */
 
 
-// ==============================
-// PEMBOLEH UBAH UTAMA
-// ==============================
+/* ==========================
+   AMBIL ELEMEN HTML
+========================== */
 
 
-let playerName = "";
-
-let currentQuestion = 0;
-
-let selectedQuestions = [];
-
-let correctAnswer = 0;
-
-let wrongAnswer = 0;
-
-let totalQuestions = 20;
+const homePage =
+document.getElementById("homePage");
 
 
-// Masa 20 minit
-let timeLeft = 1200;
-
-let timer;
+const quizPage =
+document.getElementById("quizPage");
 
 
-
-// ==============================
-// DAPATKAN ELEMENT HTML
-// ==============================
+const resultPage =
+document.getElementById("resultPage");
 
 
-const startPage = document.getElementById("startPage");
-
-const quizPage = document.getElementById("quizPage");
-
-const resultPage = document.getElementById("resultPage");
-
-
-const startButton = document.getElementById("startButton");
-
-const nextButton = document.getElementById("nextButton");
-
-const playAgainButton = document.getElementById("playAgainButton");
-
-
-const playerNameInput =
+const playerName =
 document.getElementById("playerName");
+
+
+const startBtn =
+document.getElementById("startBtn");
 
 
 const timerDisplay =
 document.getElementById("timer");
 
 
+const correctDisplay =
+document.getElementById("correct");
+
+
+const wrongDisplay =
+document.getElementById("wrong");
+
+
 const questionText =
 document.getElementById("questionText");
-
-
-const answerContainer =
-document.getElementById("answerContainer");
 
 
 const questionNumber =
 document.getElementById("questionNumber");
 
 
-const correctScore =
-document.getElementById("correctScore");
+const musicSymbol =
+document.getElementById("musicSymbol");
 
 
-const wrongScore =
-document.getElementById("wrongScore");
+const answers =
+document.getElementById("answers");
+
+
+const nextBtn =
+document.getElementById("nextBtn");
 
 
 const progressBar =
@@ -82,33 +66,75 @@ document.getElementById("progressBar");
 
 
 
-// ==============================
-// BANK SOALAN AKAN DITAMBAH
-// DALAM BAHAGIAN SETERUSNYA
-// ==============================
 
 
-let questionBank = [];
+/* ==========================
+   PEMBOLEH UBAH KUIZ
+========================== */
+
+
+let namaPemain = "";
+
+
+let masa = 1200;
+// 1200 saat = 20 minit
+
+
+let timer;
+
+
+let soalanSemasa = 0;
+
+
+let jumlahSoalan = 20;
+
+
+let soalanDipilih = [];
+
+
+let betul = 0;
+
+
+let salah = 0;
 
 
 
-// ==============================
-// BUTANG MULA KUIZ
-// ==============================
 
 
-startButton.addEventListener("click",()=>{
+/* ==========================
+   BANK SOALAN
+   AKAN DIMASUKKAN
+========================== */
 
 
-    playerName =
-    playerNameInput.value.trim();
+let bankSoalan = [];
 
 
 
-    if(playerName === ""){
 
 
-        alert("Sila masukkan nama anda dahulu.");
+
+
+/* ==========================
+   BUTANG MULA
+========================== */
+
+
+startBtn.onclick = function(){
+
+
+    namaPemain =
+    playerName.value.trim();
+
+
+
+    if(namaPemain === ""){
+
+
+        alert(
+        "Sila masukkan nama anda."
+        );
+
 
         return;
 
@@ -117,57 +143,67 @@ startButton.addEventListener("click",()=>{
 
 
 
-    startGame();
+    mulaKuiz();
 
 
-});
-
-
-
-
-
-// ==============================
-// FUNGSI MULA PERMAINAN
-// ==============================
-
-
-function startGame(){
-
-
-    startPage.classList.add("hidden");
-
-
-    quizPage.classList.remove("hidden");
+};
 
 
 
-    currentQuestion = 0;
-
-    correctAnswer = 0;
-
-    wrongAnswer = 0;
-
-
-    correctScore.innerHTML = 0;
-
-    wrongScore.innerHTML = 0;
 
 
 
-    timeLeft = 1200;
+
+/* ==========================
+   MULA KUIZ
+========================== */
+
+
+function mulaKuiz(){
 
 
 
-    selectedQuestions =
-    shuffleArray(questionBank)
-    .slice(0,totalQuestions);
+    homePage.classList.add(
+        "hidden"
+    );
 
 
 
-    startTimer();
+    quizPage.classList.remove(
+        "hidden"
+    );
 
 
-    showQuestion();
+
+    betul = 0;
+
+    salah = 0;
+
+
+    correctDisplay.innerHTML = 0;
+
+    wrongDisplay.innerHTML = 0;
+
+
+
+    soalanSemasa = 0;
+
+
+
+    masa = 1200;
+
+
+
+    soalanDipilih =
+    pilihSoalanRawak();
+
+
+
+    mulaTimer();
+
+
+
+    paparSoalan();
 
 
 
@@ -178,48 +214,70 @@ function startGame(){
 
 
 
-// ==============================
-// TIMER 20 MINIT
-// ==============================
+/* ==========================
+   PILIH 20 SOALAN RAWAK
+========================== */
 
 
-function startTimer(){
+function pilihSoalanRawak(){
+
+
+    let campur =
+
+    [...bankSoalan]
+    .sort(
+        ()=>Math.random()-0.5
+    );
+
+
+    return campur.slice(
+        0,
+        jumlahSoalan
+    );
+
+
+}
+
+
+
+
+
+
+/* ==========================
+   TIMER SAAT
+========================== */
+
+
+function mulaTimer(){
 
 
     clearInterval(timer);
 
 
 
-    timer = setInterval(()=>{
+    timer =
 
-
-        let minutes =
-        Math.floor(timeLeft / 60);
-
-
-
-        let seconds =
-        timeLeft % 60;
+    setInterval(function(){
 
 
 
         timerDisplay.innerHTML =
 
-        `${minutes}:${seconds < 10 ? "0":""}${seconds}`;
+        masa + " saat";
 
 
 
-        timeLeft--;
+        masa--;
 
 
 
-        if(timeLeft < 0){
+        if(masa < 0){
 
 
             clearInterval(timer);
 
 
-            finishQuiz();
+            tamatKuiz();
 
 
         }
@@ -229,1207 +287,1734 @@ function startTimer(){
     },1000);
 
 
-
 }
 
-
-
-
-
-// ==============================
-// ACAK ARRAY
-// ==============================
-
-
-function shuffleArray(array){
-
-
-    return array.sort(()=>Math.random()-0.5);
-
-
-}
-
-// =====================================
-// BANK SOALAN BAHAGIAN 1
-// BILANGAN NOT & SIMBOL MUZIK
-// =====================================
-
-
-questionBank = [
-
-
-/* ============================
+/* ==========================================
+   BANK SOALAN
+   BAHAGIAN 1:
    BILANGAN NOT (20 SOALAN)
-============================ */
+========================================== */
+
+
+bankSoalan.push(
 
 
 {
-question:"Berapakah nilai not semibrif?",
-symbol:"𝅝",
-answers:[
-"1 kiraan",
-"2 kiraan",
-"4 kiraan",
-"8 kiraan"
+soalan:
+"Apakah nama not ini?",
+
+simbol:
+"𝅝",
+
+jawapan:[
+"Semibrif",
+"Minim",
+"Krocet",
+"Kuaver"
 ],
-correct:2
+
+betul:0
+
 },
 
 
+
 {
-question:"Berapakah nilai not minim?",
-symbol:"𝅗𝅥",
-answers:[
-"1 kiraan",
-"2 kiraan",
-"4 kiraan",
-"8 kiraan"
+soalan:
+"Nilai not semibrif ialah?",
+
+simbol:
+"𝅝",
+
+jawapan:[
+"1 saat",
+"2 saat",
+"4 saat",
+"8 saat"
 ],
-correct:1
+
+betul:2
+
 },
 
 
+
 {
-question:"Berapakah nilai not krocet?",
-symbol:"♩",
-answers:[
-"1 kiraan",
-"2 kiraan",
-"3 kiraan",
-"4 kiraan"
+soalan:
+"Apakah nama not ini?",
+
+simbol:
+"𝅗𝅥",
+
+jawapan:[
+"Minim",
+"Krocet",
+"Kuaver",
+"Semikuaver"
 ],
-correct:0
+
+betul:0
+
 },
 
 
+
 {
-question:"Berapakah nilai not kuaver?",
-symbol:"♪",
-answers:[
-"1/2 kiraan",
-"1 kiraan",
-"2 kiraan",
-"4 kiraan"
+soalan:
+"Nilai not minim ialah?",
+
+simbol:
+"𝅗𝅥",
+
+jawapan:[
+"1 saat",
+"2 saat",
+"3 saat",
+"4 saat"
 ],
-correct:0
+
+betul:1
+
 },
 
 
+
 {
-question:"Dua not kuaver bersamaan dengan?",
-symbol:"♫",
-answers:[
+soalan:
+"Apakah nama not ini?",
+
+simbol:
+"♩",
+
+jawapan:[
+"Semibrif",
+"Minim",
+"Krocet",
+"Kuaver"
+],
+
+betul:2
+
+},
+
+
+
+{
+soalan:
+"Nilai krocet ialah?",
+
+simbol:
+"♩",
+
+jawapan:[
+"1 saat",
+"2 saat",
+"4 saat",
+"8 saat"
+],
+
+betul:0
+
+},
+
+
+
+{
+soalan:
+"Apakah nama not ini?",
+
+simbol:
+"♪",
+
+jawapan:[
+"Krocet",
+"Kuaver",
+"Minim",
+"Semibrif"
+],
+
+betul:1
+
+},
+
+
+
+{
+soalan:
+"Nilai satu kuaver ialah?",
+
+simbol:
+"♪",
+
+jawapan:[
+"1/2 saat",
+"1 saat",
+"2 saat",
+"4 saat"
+],
+
+betul:0
+
+},
+
+
+
+{
+soalan:
+"Dua kuaver bersamaan dengan?",
+
+simbol:
+"♫",
+
+jawapan:[
+"1 krocet",
+"2 krocet",
+"1 minim",
+"1 semibrif"
+],
+
+betul:0
+
+},
+
+
+
+{
+soalan:
+"Empat semikuaver bersamaan dengan?",
+
+simbol:
+"♬",
+
+jawapan:[
 "1 krocet",
 "1 minim",
-"1 semibrif",
-"1 breve"
+"2 krocet",
+"1 semibrif"
 ],
-correct:0
+
+betul:0
+
 },
 
 
+
 {
-question:"Empat not krocet bersamaan dengan?",
-symbol:"♩♩♩♩",
-answers:[
-"1 semibrif",
-"1 minim",
-"1 kuaver",
-"1 rehat"
+soalan:
+"Not yang paling panjang ialah?",
+
+simbol:
+"𝅝",
+
+jawapan:[
+"Kuaver",
+"Krocet",
+"Semibrif",
+"Minim"
 ],
-correct:0
+
+betul:2
+
 },
 
 
-{
-question:"Lapan not kuaver bersamaan dengan?",
-symbol:"♪♪♪♪♪♪♪♪",
-answers:[
-"1 minim",
-"1 semibrif",
-"2 semibrif",
-"1 krocet"
-],
-correct:2
-},
-
 
 {
-question:"Not apakah yang mempunyai kepala not kosong dan batang?",
-symbol:"𝅗𝅥",
-answers:[
-"Minim",
+soalan:
+"Not yang mempunyai nilai separuh minim ialah?",
+
+simbol:
+"𝅗𝅥",
+
+jawapan:[
 "Krocet",
 "Kuaver",
+"Semibrif",
 "Semikuaver"
 ],
-correct:0
+
+betul:0
+
 },
 
 
+
 {
-question:"Not apakah mempunyai satu bendera?",
-symbol:"♪",
-answers:[
+soalan:
+"Not yang lebih pendek daripada krocet ialah?",
+
+simbol:
+"♪",
+
+jawapan:[
 "Semibrif",
 "Minim",
 "Kuaver",
-"Krocet"
-],
-correct:2
-},
-
-
-{
-question:"Nilai not semikuaver ialah?",
-symbol:"♬",
-answers:[
-"1/4 kiraan",
-"1/2 kiraan",
-"1 kiraan",
-"2 kiraan"
-],
-correct:0
-},
-
-
-{
-question:"Apakah nama not paling panjang dalam muzik moden?",
-symbol:"𝅝",
-answers:[
-"Kuaver",
-"Minim",
-"Semibrif",
-"Krocet"
-],
-correct:2
-},
-
-
-{
-question:"Satu minim mempunyai berapa krocet?",
-symbol:"𝅗𝅥",
-answers:[
-"1",
-"2",
-"3",
-"4"
-],
-correct:1
-},
-
-
-{
-question:"Satu semibrif mempunyai berapa minim?",
-symbol:"𝅝",
-answers:[
-"1",
-"2",
-"3",
-"4"
-],
-correct:1
-},
-
-
-{
-question:"Dua semikuaver bersamaan dengan?",
-symbol:"♬",
-answers:[
-"Satu kuaver",
-"Satu minim",
-"Satu krocet",
-"Satu semibrif"
-],
-correct:0
-},
-
-
-{
-question:"Nilai rehat yang sama dengan semibrif ialah?",
-symbol:"𝄻",
-answers:[
-"Rehat semibrif",
-"Rehat minim",
-"Rehat krocet",
-"Rehat kuaver"
-],
-correct:0
-},
-
-
-{
-question:"Not yang mempunyai nilai 4 kiraan ialah?",
-symbol:"♩",
-answers:[
-"Krocet",
-"Kuaver",
-"Minim",
-"Semikuaver"
-],
-correct:0
-},
-
-
-{
-question:"Not yang bernilai separuh daripada krocet ialah?",
-symbol:"♪",
-answers:[
-"Minim",
-"Kuaver",
-"Semibrif",
 "Breve"
 ],
-correct:1
-},
 
+betul:2
 
-{
-question:"Apakah hubungan minim dengan krocet?",
-symbol:"𝅗𝅥",
-answers:[
-"1 minim = 2 krocet",
-"1 minim = 4 krocet",
-"1 minim = 8 krocet",
-"1 minim = 1 krocet"
-],
-correct:0
-},
-
-
-{
-question:"Apakah hubungan semibrif dengan krocet?",
-symbol:"𝅝",
-answers:[
-"1 semibrif = 2 krocet",
-"1 semibrif = 3 krocet",
-"1 semibrif = 4 krocet",
-"1 semibrif = 8 krocet"
-],
-correct:2
-},
-
-
-{
-question:"Not yang paling pendek antara berikut ialah?",
-symbol:"♬",
-answers:[
-"Semibrif",
-"Minim",
-"Krocet",
-"Semikuaver"
-],
-correct:3
 },
 
 
 
-
-/* ============================
-   SIMBOL MUZIK (20 SOALAN)
-============================ */
-
-
 {
-question:"Apakah nama simbol ♯?",
-symbol:"♯",
-answers:[
-"Flat",
-"Sharp",
-"Natural",
-"Fermata"
+soalan:
+"Susunan nilai not dari panjang ke pendek ialah?",
+
+simbol:
+"🎵",
+
+jawapan:[
+"Semibrif - Minim - Krocet - Kuaver",
+"Kuaver - Krocet - Minim - Semibrif",
+"Krocet - Kuaver - Minim - Semibrif",
+"Minim - Semibrif - Kuaver - Krocet"
 ],
-correct:1
+
+betul:0
+
 },
 
 
+
 {
-question:"Apakah nama simbol ♭?",
-symbol:"♭",
-answers:[
-"Sharp",
-"Flat",
-"Tanda ulang",
-"Accent"
+soalan:
+"Apakah simbol krocet?",
+
+simbol:
+"♩",
+
+jawapan:[
+"♩",
+"♪",
+"𝅗𝅥",
+"𝅝"
 ],
-correct:1
+
+betul:0
+
 },
 
 
+
 {
-question:"Apakah nama simbol ♮?",
-symbol:"♮",
-answers:[
-"Natural",
-"Flat",
-"Sharp",
-"Rest"
+soalan:
+"Apakah simbol minim?",
+
+simbol:
+"𝅗𝅥",
+
+jawapan:[
+"♪",
+"𝅗𝅥",
+"♩",
+"♬"
 ],
-correct:0
+
+betul:1
+
 },
 
 
+
 {
-question:"Simbol dinamika f bermaksud?",
-symbol:"f",
-answers:[
-"Forte",
-"Piano",
-"Moderato",
-"Allegro"
+soalan:
+"Apakah simbol kuaver?",
+
+simbol:
+"♪",
+
+jawapan:[
+"𝅝",
+"♩",
+"♪",
+"𝅗𝅥"
 ],
-correct:0
+
+betul:2
+
 },
 
 
+
 {
-question:"Simbol p dalam muzik bermaksud?",
-symbol:"p",
-answers:[
-"Piano",
-"Forte",
-"Presto",
-"Pause"
+soalan:
+"Semibrif biasanya mempunyai nilai?",
+
+simbol:
+"𝅝",
+
+jawapan:[
+"1 saat",
+"2 saat",
+"4 saat",
+"8 saat"
 ],
-correct:0
+
+betul:2
+
 },
 
 
+
 {
-question:"Simbol > dalam muzik menunjukkan?",
-symbol:">",
-answers:[
-"Accent",
-"Ulang",
-"Rehat",
-"Tempo"
+soalan:
+"Jika krocet bernilai 1 saat, minim bernilai?",
+
+simbol:
+"𝅗𝅥",
+
+jawapan:[
+"1 saat",
+"2 saat",
+"3 saat",
+"4 saat"
 ],
-correct:0
+
+betul:1
+
 },
 
 
-{
-question:"Simbol fermata menunjukkan?",
-symbol:"𝄐",
-answers:[
-"Berhenti seketika / panjangkan bunyi",
-"Main laju",
-"Main perlahan",
-"Tukar nada"
-],
-correct:0
-},
-
 
 {
-question:"Simbol crescendo menunjukkan?",
-symbol:"<",
-answers:[
-"Bunyi semakin kuat",
-"Bunyi semakin perlahan",
-"Berhenti",
-"Ulang"
+soalan:
+"Jika krocet bernilai 1 saat, semibrif bernilai?",
+
+simbol:
+"𝅝",
+
+jawapan:[
+"2 saat",
+"3 saat",
+"4 saat",
+"8 saat"
 ],
-correct:0
-},
 
+betul:2
 
-{
-question:"Simbol diminuendo menunjukkan?",
-symbol:">",
-answers:[
-"Semakin kuat",
-"Semakin perlahan",
-"Lebih cepat",
-"Lebih tinggi"
-],
-correct:1
-},
-
-
-{
-question:"Apakah simbol ulangan dalam muzik?",
-symbol:":||",
-answers:[
-"Repeat",
-"Sharp",
-"Rest",
-"Slur"
-],
-correct:0
 }
-
-];
-
-/* =====================================
-   SAMBUNGAN BANK SOALAN
-   SIMBOL MUZIK + METER LAGU
-===================================== */
-
-
-/* ============================
-   TAMBAH SIMBOL MUZIK
-   (SOALAN 31 - 40)
-============================ */
-
-
-questionBank.push(
-
-
-{
-question:"Apakah nama simbol rehat dalam muzik?",
-symbol:"𝄽",
-answers:[
-"Rest",
-"Sharp",
-"Flat",
-"Natural"
-],
-correct:0
-},
-
-
-{
-question:"Simbol tie digunakan untuk?",
-symbol:"‿",
-answers:[
-"Menyambung dua not sama tinggi",
-"Menukar tempo",
-"Menguatkan bunyi",
-"Memberhentikan lagu"
-],
-correct:0
-},
-
-
-{
-question:"Simbol slur menunjukkan?",
-symbol:"⌒",
-answers:[
-"Not dimainkan secara bersambung",
-"Not dimainkan pendek",
-"Tempo perlahan",
-"Tukar nada"
-],
-correct:0
-},
-
-
-{
-question:"Apakah maksud simbol Allegro?",
-symbol:"Allegro",
-answers:[
-"Laju",
-"Perlahan",
-"Sangat perlahan",
-"Berhenti"
-],
-correct:0
-},
-
-
-{
-question:"Apakah maksud simbol Adagio?",
-symbol:"Adagio",
-answers:[
-"Perlahan",
-"Laju",
-"Sangat kuat",
-"Sangat tinggi"
-],
-correct:0
-},
-
-
-{
-question:"Simbol crescendo ditulis sebagai?",
-symbol:"<",
-answers:[
-"Bertambah kuat",
-"Bertambah perlahan",
-"Berhenti",
-"Ulangan"
-],
-correct:0
-},
-
-
-{
-question:"Simbol diminuendo ditulis sebagai?",
-symbol:">",
-answers:[
-"Bertambah kuat",
-"Bertambah perlahan",
-"Laju",
-"Rehat"
-],
-correct:1
-},
-
-
-{
-question:"Tanda dinamik digunakan untuk menunjukkan?",
-symbol:"mf",
-answers:[
-"Tahap kekuatan bunyi",
-"Kelajuan lagu",
-"Nama not",
-"Jenis alat muzik"
-],
-correct:0
-},
-
-
-{
-question:"Simbol mf bermaksud?",
-symbol:"mf",
-answers:[
-"Mezzo forte",
-"Molto forte",
-"Minor forte",
-"Music fast"
-],
-correct:0
-},
-
-
-{
-question:"Simbol pp bermaksud?",
-symbol:"pp",
-answers:[
-"Sangat perlahan",
-"Sangat kuat",
-"Laju",
-"Sedang"
-],
-correct:0
-}
-
 
 
 );
 
+let bankSoalan = [];
+
+/* ==========================================
+   BANK SOALAN
+   BAHAGIAN 2:
+   SIMBOL MUZIK (20 SOALAN)
+========================================== */
 
 
-
-/* ============================
-   METER LAGU
-   (SOALAN 41 - 60)
-============================ */
-
-
-questionBank.push(
+bankSoalan.push(
 
 
 {
-question:"Apakah maksud meter 4/4?",
-symbol:"4/4",
-answers:[
-"Empat kiraan dalam satu bar",
-"Dua kiraan dalam satu bar",
-"Tiga kiraan dalam satu bar",
-"Lapan kiraan dalam satu bar"
+soalan:
+"Apakah nama simbol ini?",
+
+simbol:
+"♯",
+
+jawapan:[
+"Sharp",
+"Flat",
+"Natural",
+"Rest"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Meter 3/4 mempunyai berapa kiraan setiap bar?",
-symbol:"3/4",
-answers:[
-"2",
-"3",
-"4",
-"6"
+soalan:
+"Fungsi simbol Sharp (♯) ialah?",
+
+simbol:
+"♯",
+
+jawapan:[
+"Menurunkan nada setengah ton",
+"Menaikkan nada setengah ton",
+"Memberhentikan lagu",
+"Menukar tempo"
 ],
-correct:1
+
+betul:1
 },
 
 
+
 {
-question:"Meter 2/4 biasanya mempunyai?",
-symbol:"2/4",
-answers:[
-"Dua kiraan setiap bar",
-"Tiga kiraan setiap bar",
-"Empat kiraan setiap bar",
-"Lapan kiraan setiap bar"
+soalan:
+"Apakah nama simbol ini?",
+
+simbol:
+"♭",
+
+jawapan:[
+"Sharp",
+"Flat",
+"Natural",
+"Klef"
 ],
-correct:0
+
+betul:1
 },
 
 
+
 {
-question:"Nombor atas dalam meter menunjukkan?",
-symbol:"4/4",
-answers:[
-"Bilangan kiraan dalam satu bar",
-"Nilai not",
-"Nama lagu",
-"Tempo"
+soalan:
+"Fungsi Flat (♭) ialah?",
+
+simbol:
+"♭",
+
+jawapan:[
+"Menurunkan nada setengah ton",
+"Menaikkan nada",
+"Melajukan lagu",
+"Menambah kiraan"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Nombor bawah dalam meter menunjukkan?",
-symbol:"4/4",
-answers:[
-"Jenis not yang menjadi kiraan",
-"Bilangan bar",
-"Tempo",
+soalan:
+"Apakah nama simbol ini?",
+
+simbol:
+"♮",
+
+jawapan:[
+"Natural",
+"Sharp",
+"Flat",
+"Rest"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah fungsi Natural (♮)?",
+
+simbol:
+"♮",
+
+jawapan:[
+"Membatalkan Sharp atau Flat",
+"Menaikkan nada",
+"Menurunkan nada",
+"Menukar meter"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud simbol rehat?",
+
+simbol:
+"𝄽",
+
+jawapan:[
+"Diam seketika",
+"Bunyi kuat",
+"Naik nada",
+"Turun nada"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud dinamik p?",
+
+simbol:
+"p",
+
+jawapan:[
+"Perlahan",
+"Kuat",
+"Sangat kuat",
+"Laju"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud simbol f?",
+
+simbol:
+"f",
+
+jawapan:[
+"Forte (kuat)",
+"Flat",
+"Fast",
+"Fine"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud ff?",
+
+simbol:
+"ff",
+
+jawapan:[
+"Sangat kuat",
+"Sangat perlahan",
+"Sederhana",
+"Berhenti"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud pp?",
+
+simbol:
+"pp",
+
+jawapan:[
+"Sangat perlahan",
+"Sangat kuat",
+"Laju",
+"Sederhana"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud Allegro?",
+
+simbol:
+"Allegro",
+
+jawapan:[
+"Laju",
+"Perlahan",
+"Berhenti",
+"Kuat"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud Adagio?",
+
+simbol:
+"Adagio",
+
+jawapan:[
+"Perlahan",
+"Laju",
+"Kuat",
+"Berulang"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud crescendo?",
+
+simbol:
+"<",
+
+jawapan:[
+"Semakin kuat",
+"Semakin perlahan",
+"Berhenti",
+"Ulangan"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud diminuendo?",
+
+simbol:
+">",
+
+jawapan:[
+"Semakin perlahan",
+"Semakin kuat",
+"Lebih tinggi",
+"Lebih rendah"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah fungsi fermata?",
+
+simbol:
+"𝄐",
+
+jawapan:[
+"Memanjangkan not",
+"Memendekkan not",
+"Menukar nada",
+"Menukar meter"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah nama tanda ini?",
+
+simbol:
+":||",
+
+jawapan:[
+"Repeat sign",
+"Sharp",
+"Flat",
+"Natural"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud ritardando?",
+
+simbol:
+"rit.",
+
+jawapan:[
+"Semakin perlahan",
+"Semakin laju",
+"Kuat",
+"Berhenti"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud accelerando?",
+
+simbol:
+"accel.",
+
+jawapan:[
+"Semakin laju",
+"Semakin perlahan",
+"Lembut",
+"Berhenti"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Simbol dinamik menunjukkan?",
+
+simbol:
+"mf",
+
+jawapan:[
+"Kekuatan bunyi",
+"Nama not",
+"Meter lagu",
+"Kunci muzik"
+],
+
+betul:0
+}
+
+
+);
+
+/* ==========================================
+   BANK SOALAN
+   BAHAGIAN 3:
+   METER LAGU (20 SOALAN)
+========================================== */
+
+
+bankSoalan.push(
+
+
+{
+soalan:
+"Apakah maksud meter 4/4?",
+
+simbol:
+"4/4",
+
+jawapan:[
+"4 saat dalam satu bar",
+"4 not dalam satu lagu",
+"4 jenis klef",
+"4 tempo berbeza"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Meter 3/4 mempunyai berapa kiraan?",
+
+simbol:
+"3/4",
+
+jawapan:[
+"2 saat",
+"3 saat",
+"4 saat",
+"6 saat"
+],
+
+betul:1
+},
+
+
+
+{
+soalan:
+"Meter 2/4 mempunyai berapa kiraan?",
+
+simbol:
+"2/4",
+
+jawapan:[
+"2 saat",
+"3 saat",
+"4 saat",
+"8 saat"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Nombor atas dalam meter menunjukkan?",
+
+simbol:
+"4/4",
+
+jawapan:[
+"Bilangan detik dalam satu bar",
+"Kelajuan lagu",
+"Nama alat muzik",
 "Kunci lagu"
 ],
-correct:0
+
+betul:0
 },
 
 
-{
-question:"Meter 6/8 biasanya dikira sebagai?",
-symbol:"6/8",
-answers:[
-"Enam kuaver setiap bar",
-"Empat krocet",
-"Dua minim",
-"Satu semibrif"
-],
-correct:0
-},
-
 
 {
-question:"Lagu waltz biasanya menggunakan meter?",
-symbol:"3/4",
-answers:[
-"3/4",
+soalan:
+"Nombor bawah dalam meter menunjukkan?",
+
+simbol:
 "4/4",
+
+jawapan:[
+"Jenis nilai not",
+"Bilangan bar",
+"Nama lagu",
+"Tempo lagu"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Common time merujuk kepada meter?",
+
+simbol:
+"C",
+
+jawapan:[
+"4/4",
+"3/4",
 "2/4",
 "6/8"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Meter paling biasa digunakan dalam muzik moden ialah?",
-symbol:"4/4",
-answers:[
+soalan:
+"Lagu waltz biasanya menggunakan meter?",
+
+simbol:
+"3/4",
+
+jawapan:[
+"3/4",
+"4/4",
+"2/4",
+"5/4"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Meter yang paling biasa dalam muzik moden ialah?",
+
+simbol:
+"4/4",
+
+jawapan:[
 "4/4",
 "1/4",
-"5/8",
-"7/8"
+"7/8",
+"9/8"
 ],
-correct:0
+
+betul:0
 },
 
 
-{
-question:"Bar muzik dibahagikan oleh?",
-symbol:"|",
-answers:[
-"Garis bar",
-"Klef",
-"Tanda kromatik",
-"Not"
-],
-correct:0
-},
-
 
 {
-question:"Garis menegak yang memisahkan bar dipanggil?",
-symbol:"|",
-answers:[
+soalan:
+"Simbol garis pemisah bar dipanggil?",
+
+simbol:
+"|",
+
+jawapan:[
 "Bar line",
-"Slur",
-"Tie",
-"Fermata"
+"Klef",
+"Sharp",
+"Slur"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Meter 3/8 mempunyai jumlah kiraan?",
-symbol:"3/8",
-answers:[
+soalan:
+"Fungsi bar line ialah?",
+
+simbol:
+"|",
+
+jawapan:[
+"Membahagikan muzik kepada bar",
+"Mengubah nada",
+"Menambah tempo",
+"Menguatkan bunyi"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Meter 6/8 mempunyai berapa detik?",
+
+simbol:
+"6/8",
+
+jawapan:[
+"6 detik",
+"4 detik",
+"3 detik",
+"8 detik"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Dalam meter 4/4, satu bar mengandungi berapa krocet?",
+
+simbol:
+"♩♩♩♩",
+
+jawapan:[
+"2",
 "3",
 "4",
-"6",
 "8"
 ],
-correct:0
+
+betul:2
 },
 
 
+
 {
-question:"Meter 2/2 juga dikenali sebagai?",
-symbol:"2/2",
-answers:[
+soalan:
+"Dalam meter 3/4, satu bar mengandungi berapa krocet?",
+
+simbol:
+"♩♩♩",
+
+jawapan:[
+"1",
+"2",
+"3",
+"4"
+],
+
+betul:2
+},
+
+
+
+{
+soalan:
+"Meter lagu menunjukkan?",
+
+simbol:
+"4/4",
+
+jawapan:[
+"Susunan detik dan rentak",
+"Warna bunyi",
+"Nama alat muzik",
+"Lirik lagu"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud meter lagu?",
+
+simbol:
+"3/4",
+
+jawapan:[
+"Susunan detik dalam muzik",
+"Jenis suara",
+"Nama komposer",
+"Jenis alat"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Meter 2/2 juga dikenali sebagai?",
+
+simbol:
+"2/2",
+
+jawapan:[
 "Cut time",
 "Waltz",
 "Common time",
 "Triple time"
 ],
-correct:0
+
+betul:0
 },
 
 
-{
-question:"Common time merujuk kepada meter?",
-symbol:"C",
-answers:[
-"4/4",
-"3/4",
-"2/4",
-"6/8"
-],
-correct:0
-},
-
 
 {
-question:"Meter menunjukkan susunan?",
-symbol:"4/4",
-answers:[
-"Kiraan dalam muzik",
-"Warna bunyi",
-"Nama alat muzik",
-"Lirik lagu"
-],
-correct:0
-},
+soalan:
+"Tanda meter biasanya ditulis selepas?",
 
+simbol:
+"🎼",
 
-{
-question:"Satu bar 4/4 mempunyai berapa krocet?",
-symbol:"♩♩♩♩",
-answers:[
-"2",
-"3",
-"4",
-"8"
-],
-correct:2
-},
-
-
-{
-question:"Satu bar 3/4 mempunyai berapa minim?",
-symbol:"𝅗𝅥",
-answers:[
-"1",
-"2",
-"3",
-"4"
-],
-correct:2
-},
-
-
-{
-question:"Meter menunjukkan corak?",
-symbol:"3/4",
-answers:[
-"Rentak",
-"Nada",
-"Lirik",
-"Alat"
-],
-correct:0
-},
-
-
-{
-question:"Apakah fungsi garis bar?",
-symbol:"|",
-answers:[
-"Membahagi muzik kepada bar",
-"Menukar nada",
-"Menambah laju",
-"Menguatkan bunyi"
-],
-correct:0
-},
-
-
-{
-question:"Meter 4/4 juga dipanggil?",
-symbol:"C",
-answers:[
-"Common time",
-"Slow time",
-"Triple time",
-"Minor time"
-],
-correct:0
-},
-
-
-{
-question:"Tanda meter biasanya ditulis selepas?",
-symbol:"🎼",
-answers:[
+jawapan:[
 "Klef",
-"Lirik",
 "Tajuk lagu",
-"Dinamik"
+"Lirik",
+"Dinamika"
 ],
-correct:0
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Apakah maksud meter 3/8?",
+
+simbol:
+"3/8",
+
+jawapan:[
+"3 detik dalam satu bar",
+"8 detik dalam satu bar",
+"3 bar lagu",
+"8 not sahaja"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Meter membantu pemuzik memahami?",
+
+simbol:
+"4/4",
+
+jawapan:[
+"Rentak lagu",
+"Warna alat",
+"Lirik",
+"Nama penyanyi"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Jumlah detik dalam bar ditentukan oleh?",
+
+simbol:
+"METER",
+
+jawapan:[
+"Masa meter lagu",
+"Nama lagu",
+"Jenis alat",
+"Kunci suara"
+],
+
+betul:0
 }
 
 
 );
 
-/* =====================================
-   MAJOR & MINOR
-   SOALAN 61 - 80
-===================================== */
+/* ==========================================
+   BANK SOALAN
+   BAHAGIAN 4:
+   MAJOR & MINOR (20 SOALAN)
+========================================== */
 
 
-questionBank.push(
+bankSoalan.push(
 
 
 {
-question:"Apakah maksud Major dalam muzik?",
-symbol:"C Major",
-answers:[
-"Skala yang biasanya mempunyai bunyi ceria",
-"Skala yang sentiasa perlahan",
+soalan:
+"Apakah maksud skala Major?",
+
+simbol:
+"C Major",
+
+jawapan:[
+"Skala yang biasanya berbunyi ceria",
 "Skala tanpa not",
-"Skala rehat"
+"Skala rehat",
+"Skala tanpa melodi"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Apakah maksud Minor dalam muzik?",
-symbol:"A Minor",
-answers:[
-"Skala yang biasanya mempunyai bunyi lebih sedih",
-"Skala yang sangat laju",
-"Skala tanpa nada",
-"Skala muzik tradisional sahaja"
+soalan:
+"Apakah maksud skala Minor?",
+
+simbol:
+"A Minor",
+
+jawapan:[
+"Skala yang biasanya berbunyi sedih atau lembut",
+"Skala paling laju",
+"Skala tanpa not",
+"Skala rentak sahaja"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"C Major mempunyai berapa tanda kromatik?",
-symbol:"C",
-answers:[
+soalan:
+"Berapakah tanda kromatik dalam C Major?",
+
+simbol:
+"C Major",
+
+jawapan:[
 "Tiada",
 "1 Sharp",
-"2 Flat",
-"3 Sharp"
+"1 Flat",
+"2 Sharp"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Relative minor bagi C Major ialah?",
-symbol:"C Major",
-answers:[
+soalan:
+"Relative minor bagi C Major ialah?",
+
+simbol:
+"C Major",
+
+jawapan:[
 "A Minor",
 "D Minor",
 "E Minor",
 "G Minor"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Relative minor bagi G Major ialah?",
-symbol:"G Major",
-answers:[
+soalan:
+"Relative minor bagi G Major ialah?",
+
+simbol:
+"G Major",
+
+jawapan:[
 "E Minor",
 "A Minor",
+"C Minor",
+"D Minor"
+],
+
+betul:0
+},
+
+
+
+{
+soalan:
+"Relative minor bagi F Major ialah?",
+
+simbol:
+"F Major",
+
+jawapan:[
 "D Minor",
+"A Minor",
+"E Minor",
 "C Minor"
 ],
-correct:0
+
+betul:0
 },
 
 
-{
-question:"Relative minor bagi F Major ialah?",
-symbol:"F Major",
-answers:[
-"D Minor",
-"A Minor",
-"E Minor",
-"G Minor"
-],
-correct:0
-},
-
 
 {
-question:"Tangga nada G Major mempunyai tanda?",
-symbol:"G Major",
-answers:[
+soalan:
+"G Major mempunyai berapa Sharp?",
+
+simbol:
+"G Major",
+
+jawapan:[
 "1 Sharp",
 "1 Flat",
 "Tiada",
 "2 Flat"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Tangga nada F Major mempunyai tanda?",
-symbol:"F Major",
-answers:[
+soalan:
+"F Major mempunyai tanda kromatik?",
+
+simbol:
+"F Major",
+
+jawapan:[
 "1 Flat",
 "1 Sharp",
 "Tiada",
 "2 Sharp"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Apakah tanda kromatik bagi G Major?",
-symbol:"G",
-answers:[
-"F Sharp",
-"C Sharp",
-"B Flat",
-"E Flat"
+soalan:
+"Sharp bagi G Major ialah?",
+
+simbol:
+"G",
+
+jawapan:[
+"F♯",
+"C♯",
+"B♭",
+"E♭"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Apakah tanda kromatik bagi F Major?",
-symbol:"F",
-answers:[
-"B Flat",
-"F Sharp",
-"C Sharp",
-"G Sharp"
+soalan:
+"Flat bagi F Major ialah?",
+
+simbol:
+"F",
+
+jawapan:[
+"B♭",
+"F♯",
+"C♯",
+"G♯"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Skala Major mempunyai susunan ton dan semiton tertentu yang menghasilkan?",
-symbol:"Major",
-answers:[
-"Bunyi ceria",
-"Bunyi tanpa nada",
-"Rentak sahaja",
-"Senandung"
+soalan:
+"Major biasanya memberi rasa?",
+
+simbol:
+"Major",
+
+jawapan:[
+"Ceria",
+"Sedih",
+"Gelap",
+"Sunyi"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Skala Minor biasanya digunakan untuk menghasilkan suasana?",
-symbol:"Minor",
-answers:[
+soalan:
+"Minor biasanya memberi rasa?",
+
+simbol:
+"Minor",
+
+jawapan:[
 "Sedih atau melankolik",
-"Sangat bising",
-"Tanpa melodi",
-"Tanpa harmoni"
+"Sentiasa gembira",
+"Sangat laju",
+"Tiada emosi"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Apakah relative minor bagi D Major?",
-symbol:"D Major",
-answers:[
+soalan:
+"Relative minor bagi D Major ialah?",
+
+simbol:
+"D Major",
+
+jawapan:[
 "B Minor",
 "E Minor",
 "A Minor",
 "F Minor"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Apakah relative minor bagi A Major?",
-symbol:"A Major",
-answers:[
-"F Sharp Minor",
+soalan:
+"Relative minor bagi A Major ialah?",
+
+simbol:
+"A Major",
+
+jawapan:[
+"F♯ Minor",
 "C Minor",
 "E Minor",
 "D Minor"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Apakah relative minor bagi E Major?",
-symbol:"E Major",
-answers:[
-"C Sharp Minor",
+soalan:
+"Relative minor bagi E Major ialah?",
+
+simbol:
+"E Major",
+
+jawapan:[
+"C♯ Minor",
 "A Minor",
 "G Minor",
 "D Minor"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Apakah relative minor bagi B Flat Major?",
-symbol:"Bb Major",
-answers:[
+soalan:
+"Relative minor bagi B♭ Major ialah?",
+
+simbol:
+"B♭ Major",
+
+jawapan:[
 "G Minor",
 "D Minor",
 "A Minor",
 "E Minor"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Kunci Major dan relative minor mempunyai?",
-symbol:"🎼",
-answers:[
+soalan:
+"Major dan relative Minor mempunyai?",
+
+simbol:
+"C Major ↔ A Minor",
+
+jawapan:[
 "Tanda kromatik yang sama",
 "Tempo yang sama",
-"Lirik yang sama",
-"Rentak yang sama"
+"Meter yang sama",
+"Not yang sama sahaja"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"A Minor mempunyai berapa tanda kromatik?",
-symbol:"A Minor",
-answers:[
+soalan:
+"A Minor mempunyai tanda kromatik?",
+
+simbol:
+"A Minor",
+
+jawapan:[
 "Tiada",
 "1 Sharp",
 "2 Flat",
 "3 Sharp"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"Apakah perbezaan utama Major dan Minor?",
-symbol:"Major / Minor",
-answers:[
-"Rasa dan warna bunyi",
+soalan:
+"Perbezaan utama Major dan Minor ialah?",
+
+simbol:
+"Major / Minor",
+
+jawapan:[
+"Warna dan rasa bunyi",
 "Bilangan bar",
 "Kelajuan sahaja",
-"Jenis alat muzik"
+"Nama alat muzik"
 ],
-correct:0
+
+betul:0
 },
 
 
+
 {
-question:"C Major dan A Minor adalah contoh?",
-symbol:"C ↔ Am",
-answers:[
+soalan:
+"C Major dan A Minor ialah contoh?",
+
+simbol:
+"C ↔ Am",
+
+jawapan:[
 "Relative Major dan Minor",
 "Meter lagu",
 "Klef",
 "Tempo"
 ],
-correct:0
+
+betul:0
 }
 
 
 );
 
-
-/* =====================================
-   SEMAK JUMLAH SOALAN
-===================================== */
-
-console.log(
-    "Jumlah bank soalan:",
-    questionBank.length
-);
-
-/* =====================================
-   PAPAR SOALAN & JAWAPAN
-===================================== */
+/* ==========================================
+   SISTEM PAPAR SOALAN
+   BAHAGIAN 6
+========================================== */
 
 
-function showQuestion(){
+
+function paparSoalan(){
 
 
-    let current = selectedQuestions[currentQuestion];
+    let soalan = 
+    soalanDipilih[soalanSemasa];
+
 
 
     questionNumber.innerHTML =
-    currentQuestion + 1;
+
+    `Soalan ${soalanSemasa + 1} / ${jumlahSoalan}`;
 
 
 
     questionText.innerHTML =
-    current.question;
+
+    soalan.soalan;
 
 
 
-    document.getElementById("symbolImage").innerHTML =
-    current.symbol;
+    musicSymbol.innerHTML =
+
+    soalan.simbol;
 
 
 
-    answerContainer.innerHTML = "";
+    answers.innerHTML = "";
 
 
 
-    current.answers.forEach((answer,index)=>{
 
 
-        let button =
-        document.createElement("button");
+    /* ==========================
+       ACAK JAWAPAN
+    ========================== */
 
 
-        button.className =
-        "answer-button";
+    let pilihan = 
+    soalan.jawapan.map(
+    function(item,index){
 
 
-        button.innerHTML =
-        answer;
+        return {
+
+
+            teks:item,
+
+
+            betul:
+            index === soalan.betul
+
+
+        };
+
+
+    });
 
 
 
-        button.onclick = function(){
+    pilihan.sort(
+        ()=>Math.random()-0.5
+    );
 
 
-            checkAnswer(
-                index,
-                button
+
+
+
+
+    pilihan.forEach(
+    function(item,index){
+
+
+
+        let butang =
+
+        document.createElement(
+            "button"
+        );
+
+
+
+        butang.className =
+        "answerBtn";
+
+
+
+        let huruf =
+
+        [
+        "A",
+        "B",
+        "C",
+        "D"
+        ];
+
+
+
+        butang.innerHTML =
+
+        huruf[index] +
+        ". " +
+        item.teks;
+
+
+
+        butang.onclick =
+
+        function(){
+
+
+            semakJawapan(
+                item.betul,
+                butang
             );
 
 
         };
 
 
-        answerContainer.appendChild(button);
+
+        answers.appendChild(
+            butang
+        );
+
 
 
     });
 
 
 
-    updateProgress();
+
+
+    kemaskiniProgress();
 
 
 }
@@ -1438,67 +2023,74 @@ function showQuestion(){
 
 
 
-/* =====================================
+
+
+/* ==========================
    SEMAK JAWAPAN
-===================================== */
+========================== */
 
 
-function checkAnswer(selected,button){
-
-
-    let current =
-    selectedQuestions[currentQuestion];
-
-
-
-    let buttons =
-    document.querySelectorAll(".answer-button");
+function semakJawapan(
+Jawapanbetul,
+butang
+){
 
 
 
-    buttons.forEach(btn=>{
+    let semuaButang =
+
+    document.querySelectorAll(
+        ".answerBtn"
+    );
+
+
+
+    semuaButang.forEach(
+    function(btn){
+
 
         btn.disabled = true;
 
+
     });
 
 
 
-    if(selected === current.correct){
 
 
-        button.classList.add("correct");
+    if(jawapanbetul){
 
 
-        correctAnswer++;
+        butang.classList.add(
+            "correct"
+        );
 
 
-        correctScore.innerHTML =
-        correctAnswer;
+        betul++;
 
-
-
-    }else{
-
-
-        button.classList.add("wrong");
-
-
-        buttons[current.correct]
-        .classList.add("correct");
-
-
-
-        wrongAnswer++;
-
-
-        wrongScore.innerHTML =
-        wrongAnswer;
+        correctDisplay.innerHTML =
+        betul;
 
 
 
     }
 
+    else{
+
+
+        butang.classList.add(
+            "wrong"
+        );
+
+
+        salah++;
+
+
+        wrongDisplay.innerHTML =
+        salah;
+
+
+    }
 
 
 }
@@ -1508,60 +2100,29 @@ function checkAnswer(selected,button){
 
 
 
-
-/* =====================================
-   SOALAN SETERUSNYA
-===================================== */
-
-
-nextButton.addEventListener("click",()=>{
-
-
-    currentQuestion++;
-
-
-
-    if(currentQuestion < totalQuestions){
-
-
-        showQuestion();
-
-
-
-    }else{
-
-
-        finishQuiz();
-
-
-
-    }
-
-
-
-});
-
-
-
-
-
-
-/* =====================================
+/* ==========================
    PROGRESS BAR
-===================================== */
+========================== */
 
 
-function updateProgress(){
+function kemaskiniProgress(){
 
 
-    let progress =
 
-    ((currentQuestion) / totalQuestions) * 100;
+    let peratus =
+
+    (
+        soalanSemasa /
+        jumlahSoalan
+    )
+    * 100;
 
 
 
     progressBar.style.width =
-    progress + "%";
+
+    peratus + "%";
+
 
 
 }
@@ -1571,216 +2132,329 @@ function updateProgress(){
 
 
 
-/* =====================================
+/* ==========================
+   BUTANG SETERUSNYA
+========================== */
+
+
+nextBtn.onclick = function(){
+
+
+
+    soalanSemasa++;
+
+
+
+    if(
+        soalanSemasa <
+        jumlahSoalan
+    ){
+
+
+        paparSoalan();
+
+
+    }
+
+    else{
+
+
+        tamatKuiz();
+
+
+    }
+
+
+};
+
+/* ==========================================
+   KEPUTUSAN & LEADERBOARD
+   BAHAGIAN 7
+========================================== */
+
+
+
+const resultName =
+document.getElementById("resultName");
+
+
+const finalCorrect =
+document.getElementById("finalCorrect");
+
+
+const finalWrong =
+document.getElementById("finalWrong");
+
+
+const finalScore =
+document.getElementById("finalScore");
+
+
+const finalTime =
+document.getElementById("finalTime");
+
+
+const finalGrade =
+document.getElementById("finalGrade");
+
+
+const restartBtn =
+document.getElementById("restartBtn");
+
+
+const leaderboardBody =
+document.getElementById("leaderboardBody");
+
+
+
+
+
+
+
+/* ==========================
    TAMAT KUIZ
-===================================== */
+========================== */
 
 
-function finishQuiz(){
+function tamatKuiz(){
+
 
 
     clearInterval(timer);
 
 
 
-    quizPage.classList.add("hidden");
+    quizPage.classList.add(
+        "hidden"
+    );
 
 
-    resultPage.classList.remove("hidden");
-
-
-
-    let usedSeconds =
-    1200 - timeLeft;
-
-
-
-    let minutes =
-    Math.floor(usedSeconds / 60);
-
-
-
-    let seconds =
-    usedSeconds % 60;
-
-
-
-    document.getElementById("resultName")
-    .innerHTML =
-    playerName;
-
-
-
-    document.getElementById("finalCorrect")
-    .innerHTML =
-    correctAnswer;
-
-
-
-    document.getElementById("finalWrong")
-    .innerHTML =
-    wrongAnswer;
-
-
-
-    document.getElementById("finalTime")
-    .innerHTML =
-    `${minutes}:${seconds < 10 ? "0":""}${seconds}`;
-
-
-
-    let mark =
-    Math.round(
-    (correctAnswer / totalQuestions) * 100
+    resultPage.classList.remove(
+        "hidden"
     );
 
 
 
-    document.getElementById("finalMark")
-    .innerHTML =
-    mark + "%";
+
+    let masaDiguna =
+
+    1200 - masa;
 
 
 
-    let grade="";
+    resultName.innerHTML =
+
+    namaPemain;
 
 
-    if(mark >= 80){
 
-        grade="🏆 Gred A";
+    finalCorrect.innerHTML =
+
+    betul;
+
+
+
+    finalWrong.innerHTML =
+
+    salah;
+
+
+
+    let markah =
+
+    Math.round(
+
+    (betul /
+    jumlahSoalan)
+    *100
+
+    );
+
+
+
+    finalScore.innerHTML =
+
+    markah + "%";
+
+
+
+
+    finalTime.innerHTML =
+
+    masaDiguna + " saat";
+
+
+
+
+
+    if(markah >= 80){
+
+
+        finalGrade.innerHTML =
+        "🏆 GRED A";
+
 
     }
 
-    else if(mark >= 60){
+    else if(markah >=60){
 
-        grade="🥈 Gred B";
+
+        finalGrade.innerHTML =
+        "🥈 GRED B";
+
 
     }
 
-    else if(mark >= 40){
+    else if(markah >=40){
 
-        grade="🥉 Gred C";
+
+        finalGrade.innerHTML =
+        "🥉 GRED C";
+
 
     }
 
     else{
 
-        grade="📚 Teruskan Latihan";
+
+        finalGrade.innerHTML =
+        "📚 GRED D";
+
 
     }
 
 
 
-    document.getElementById("finalGrade")
-    .innerHTML =
-    grade;
 
-
-
-    saveScore();
+    simpanLeaderboard(
+        markah,
+        masaDiguna
+    );
 
 
 
 }
 
-/* =====================================
-   LEADERBOARD & SIMPAN SKOR
-===================================== */
-
-
-function saveScore(){
-
-
-    let usedSeconds =
-    1200 - timeLeft;
 
 
 
-    let minutes =
-    Math.floor(usedSeconds / 60);
 
 
 
-    let seconds =
-    usedSeconds % 60;
+
+
+/* ==========================
+   SIMPAN LEADERBOARD
+========================== */
+
+
+function simpanLeaderboard(
+markah,
+masaDiguna
+){
 
 
 
-    let record = {
+    let data = {
 
 
-        name: playerName,
+        nama:
+        namaPemain,
 
 
-        correct: correctAnswer,
+        betul:
+        betul,
 
 
-        wrong: wrongAnswer,
+        salah:
+        salah,
 
 
-        time:
-        `${minutes}:${seconds < 10 ? "0":""}${seconds}`,
+        markah:
+        markah,
 
 
-        timeValue:
-        usedSeconds,
+        masa:
+        masaDiguna
 
-
-        date:
-        new Date().toLocaleDateString("ms-MY")
 
 
     };
 
 
 
-    let leaderboard =
+
+
+    let papan =
+
     JSON.parse(
-        localStorage.getItem("muzikLeaderboard")
+
+    localStorage.getItem(
+    "leaderboardMuzik"
     )
+
+    )
+
     || [];
 
 
 
-    leaderboard.push(record);
+
+    papan.push(data);
 
 
 
-    leaderboard.sort((a,b)=>{
+
+    papan.sort(
+
+    function(a,b){
 
 
-        if(b.correct !== a.correct){
 
+        if(
+        b.betul !== a.betul
+        ){
 
-            return b.correct - a.correct;
-
+            return b.betul -
+            a.betul;
 
         }
 
 
-        return a.timeValue - b.timeValue;
+
+        return a.masa -
+        b.masa;
+
 
 
     });
 
 
 
-    leaderboard =
-    leaderboard.slice(0,10);
+    papan =
+
+    papan.slice(
+        0,
+        10
+    );
+
 
 
 
     localStorage.setItem(
 
-        "muzikLeaderboard",
+    "leaderboardMuzik",
 
-        JSON.stringify(leaderboard)
+    JSON.stringify(
+        papan
+    )
 
     );
 
 
 
-    showLeaderboard();
+    paparLeaderboard();
+
 
 
 }
@@ -1791,87 +2465,92 @@ function saveScore(){
 
 
 
-/* =====================================
+
+
+/* ==========================
    PAPAR LEADERBOARD
-===================================== */
+========================== */
 
 
-function showLeaderboard(){
+function paparLeaderboard(){
 
 
-    let leaderboard =
+
+    let papan =
 
     JSON.parse(
 
-        localStorage.getItem("muzikLeaderboard")
+    localStorage.getItem(
+    "leaderboardMuzik"
+    )
 
     )
+
     || [];
 
 
 
-    let table =
-
-    document.getElementById(
-        "leaderboardBody"
-    );
+    leaderboardBody.innerHTML =
+    "";
 
 
 
-    table.innerHTML = "";
 
 
+    papan.forEach(
 
-    leaderboard.forEach((player,index)=>{
+    function(pemain,index){
+
 
 
         let row =
 
-        document.createElement("tr");
+        document.createElement(
+        "tr"
+        );
 
 
 
         row.innerHTML = `
 
-        <td>
 
+        <td>
         ${index+1}
-
         </td>
 
 
         <td>
-
-        ${player.name}
-
+        ${pemain.nama}
         </td>
 
 
         <td>
-
-        ${player.correct}
-
+        ${pemain.betul}
         </td>
 
 
         <td>
-
-        ${player.wrong}
-
+        ${pemain.salah}
         </td>
 
 
         <td>
-
-        ${player.time}
-
+        ${pemain.markah}%
         </td>
+
+
+        <td>
+        ${pemain.masa} saat
+        </td>
+
 
         `;
 
 
 
-        table.appendChild(row);
+        leaderboardBody.appendChild(
+            row
+        );
 
 
 
@@ -1885,48 +2564,56 @@ function showLeaderboard(){
 
 
 
-/* =====================================
+
+
+
+
+/* ==========================
    MAIN SEMULA
-===================================== */
+========================== */
 
 
-playAgainButton.addEventListener(
-"click",
-()=>{
-
-
-    resultPage.classList.add("hidden");
-
-
-    startPage.classList.remove("hidden");
+restartBtn.onclick = function(){
 
 
 
-    playerNameInput.value="";
+    resultPage.classList.add(
+        "hidden"
+    );
 
 
 
-    showLeaderboard();
+    homePage.classList.remove(
+        "hidden"
+    );
 
 
 
-});
+    playerName.value =
+    "";
+
+
+
+    paparLeaderboard();
+
+
+
+};
 
 
 
 
 
 
-
-/* =====================================
-   PAPAR LEADERBOARD SEMASA BUKA
-===================================== */
+/* ==========================
+   PAPAR DATA AWAL
+========================== */
 
 
 window.onload = function(){
 
 
-    showLeaderboard();
+    paparLeaderboard();
 
 
 };
